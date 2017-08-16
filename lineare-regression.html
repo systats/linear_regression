@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Lineare Regression</title>
+  <meta name="description" content="Dieses Book hat zum Ziel moderne Ansätze der Statistik einfach aber detailiert zu erklären. Neben den theoretischen Konzepten werden verschiedene Darstellungsformate und Modelimplication besprochen.">
+  <meta name="generator" content="bookdown 0.4.3 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Lineare Regression" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Dieses Book hat zum Ziel moderne Ansätze der Statistik einfach aber detailiert zu erklären. Neben den theoretischen Konzepten werden verschiedene Darstellungsformate und Modelimplication besprochen." />
+  <meta name="github-repo" content="systats/linear_regression" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lineare Regression" />
+  
+  <meta name="twitter:description" content="Dieses Book hat zum Ziel moderne Ansätze der Statistik einfach aber detailiert zu erklären. Neben den theoretischen Konzepten werden verschiedene Darstellungsformate und Modelimplication besprochen." />
+  
+
+<meta name="author" content="Simon Roth">
+
+
+<meta name="date" content="2017-08-16">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="einstieg.html">
+<link rel="next" href="lm-modelgute.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-0.9/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.7.1/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+<link href="libs/plotlyjs-1.29.2/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotlyjs-1.29.2/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Übersicht</a></li>
+<li class="chapter" data-level="1" data-path="einstieg.html"><a href="einstieg.html"><i class="fa fa-check"></i><b>1</b> Einstieg</a></li>
+<li class="chapter" data-level="2" data-path="lineare-regression.html"><a href="lineare-regression.html"><i class="fa fa-check"></i><b>2</b> Lineare Regression</a><ul>
+<li class="chapter" data-level="2.1" data-path="lineare-regression.html"><a href="lineare-regression.html#geometrie"><i class="fa fa-check"></i><b>2.1</b> Geometrie</a></li>
+<li class="chapter" data-level="2.2" data-path="lineare-regression.html"><a href="lineare-regression.html#simple-lineare-regression"><i class="fa fa-check"></i><b>2.2</b> Simple Lineare Regression</a></li>
+<li class="chapter" data-level="2.3" data-path="lineare-regression.html"><a href="lineare-regression.html#interpretation-der-koeffizienten"><i class="fa fa-check"></i><b>2.3</b> Interpretation der Koeffizienten</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="lineare-regression.html"><a href="lineare-regression.html#konfidenzintervall"><i class="fa fa-check"></i><b>2.3.1</b> Konfidenzintervall</a></li>
+<li class="chapter" data-level="2.3.2" data-path="lineare-regression.html"><a href="lineare-regression.html#nullhypothesentest"><i class="fa fa-check"></i><b>2.3.2</b> Nullhypothesentest</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="lineare-regression.html"><a href="lineare-regression.html#multivariate-regression"><i class="fa fa-check"></i><b>2.4</b> Multivariate Regression</a></li>
+<li class="chapter" data-level="2.5" data-path="lineare-regression.html"><a href="lineare-regression.html#ols-schatzung"><i class="fa fa-check"></i><b>2.5</b> OLS Schätzung</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="lm-modelgute.html"><a href="lm-modelgute.html"><i class="fa fa-check"></i><b>3</b> LM Modelgüte</a></li>
+<li class="chapter" data-level="4" data-path="lm-residuenanalyse.html"><a href="lm-residuenanalyse.html"><i class="fa fa-check"></i><b>4</b> LM Residuenanalyse</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Lineare Regression</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lineare-regression" class="section level1">
+<h1><span class="header-section-number">2</span> Lineare Regression</h1>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load data</span>
+<span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&#39;https://github.com/systats/macro_project/raw/master/project_macro.Rdata&#39;</span>))
+<span class="co"># filter data</span>
+dat &lt;-<span class="st"> </span>project_macro %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(year ==<span class="st"> </span><span class="dv">2010</span>)</code></pre></div>
+<p>Lineare Regression ist das mit Abstand am häufigsten genutzte statistische Modell der empirischen Sozialforschung, da es weniger komplex und einfacher zu interpretieren ist. Allgemein kann damit der Zusammenhang von einer oder mehrerer <em>unabhängigen Variablen</em> <span class="math inline">\(x\)</span> und einer metrischen, <em>abhängigen Variable</em> <span class="math inline">\(y\)</span> “erklärt” werden. Dazu wird die Y-Variable als Funktion (in Abhängigkeit) der X-Variablen modelliert.</p>
+<!---LM sind eine mathematische Repräsentation des vermuteten **data-generating-process**. Der Daten-Generierungs-Prozess ist nichts anderes als die Summe der vermuteten Wirkungsmechanismen und "Kausalitäten" die zu den gegebenen Daten geführt haben (könnten). Idealerweise findet eine linearen Regression den "wahren" statistischen Zusammenhang und kann diesen von zufälligen Fehlern die immer vorhanden sind trennen. Die Muster und Trends in den Daten gilt es erst visuell zu entdecken und dann statistisch zu modellieren. --->
+<!-- The goal of a model is to provide a simple low-dimensional summary of a dataset. Ideally, the model will capture true “signals” (i.e. patterns generated by the phenomenon of interest), and ignore “noise” (i.e. random variation that you’re not interested in). -->
+<div id="geometrie" class="section level2">
+<h2><span class="header-section-number">2.1</span> Geometrie</h2>
+<!-- [HIER](https://systats.shinyapps.io/simple_regression/) gehts zum Spielplatz! -->
+<p>Bevor wir zur mathematischen Notation kommen schauen wir uns die geometrische Form einer Regressionsgeraden an. Die geschätzte Regressionsgerade beschreibt die optimale Linie (blau) die von allen Datenpunkten im Durschnitt gleich weit entfernt ist.</p>
+<div id="1365e69c609f5" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="1365e69c609f5">{"x":{"data":[{"x":[1.17243192089774,1.40816039073813,1.11402734635159,-0.368819577657922,2.47269855869616,2.18911761985468,1.86062327979454,-1.43076888801269,1.7008491982507,1.01701590589865,0.767958230490638,1.34112891206639,1.28427786285345,1.22028297667262,0.295196553104906,1.42962660159799,2.08803170608402,2.23726475842252,0.807223516948302,0.976405928243527,-1.14705924703632,1.72450569827116,0.359813973851097,0.199496483831781,-0.228886837491524,3.45612415018393,-0.0208578446159613,1.60981002141137,0.890996457990191,-0.0489792333463504,0.514799570898607,2.45826055547355,-0.831536936818434,1.33655814984875,1.33655814984875,1.92105062967926,1.22176197117492,2.1894250583801,0.645201920820281,2.95655063924832,1.86402465536873,-0.243784932901715,1.56686512407134,2.00724415128192,0.312788186812178,-1.61113826122559,2.22027195093668,-0.421741737346411,3.21728390006771,-0.701682704993406,2.12787335948849,1.32272183084988,2.30751571076472,1.21567991450612,2.35011394259554,-0.736713799104207,0.880417342737464,2.56587670057936,0.701803333519314,-0.601775599728995,0.455533195826828,1.4229112608799,1.44237210857013,0.700124954950733,-0.0595723158657742,2.77077823180872,1.13804777036229,1.57664040125499,1.68560412082923,1.43225501396363,0.177646812216428,1.77285582378817,1.61066713838438,1.90214158682796,0.548907179900818,1.76864437370047,2.24750526378889,1.26838216221944,-0.420593765985239,0.188714415906846,-2.58777062326688,1.47046272577198,-0.377777656785086,-1.35087109601891,1.04812454105056,-0.044427993635059,2.06125034282522,0.458472288842151,1.88051772130406,2.02372577298328,-0.917053113560342,1.02776307812338,0.878436312662511,1.72026970562189,0.426367391099625,0.894229686554231,1.34773119783514,-1.22207249181289,3.15932423806413,0.876389806268236,2.56328935549217,1.34562225429576,0.758916975964137,1.00126232291541,-0.0536522062330507,0.522973870449014,0.524926388550645,1.21650097430811,0.893477061449694,0.689732734704437,1.31476127196798,2.22119291062057,1.83608295068565,1.1867028218451,1.48112673540117,0.693459278786271,-0.0711458807776694,1.77999875162876,1.01630828515009,1.73766224083942,0.876803340070118,1.15077902874784,0.888810147638464,-0.690701230292657,0.599289303951528,1.56856432667075,0.0961767812728602,-0.547281240968907,-1.26480481970285,0.12752243047439,0.550211905109491,-1.41506290012825,2.89041334180653,2.07739047393432,0.954927714111203,1.273578574556,2.73053171011954,-1.3773520534557,1.99131195829021,0.791538703416532,0.761223359882416,-2.29732018127846,-0.856963340129235,-1.17120102887129,0.804316044059008,2.41159047417923,-1.44287587813668,0.717974029804185,-1.46192382456183,-0.245015873884585,1.74511574183568,1.59443723466954,0.869432920302453,2.1437733164204,1.23204175641911,2.69608818242689,2.46163913079143,-1.63965597381285,0.495154618197405,-0.239645400479111,2.77770751073114,0.254065562419484,1.76520453181792,1.24471265449766,-0.283378715197392],"y":[0.256624506573802,0.951284643739462,-0.457086795555606,0.182485890234606,0.445995863452153,1.88739535792852,2.81121684658479,-2.29487174285674,0.599701722390057,1.55308106419653,0.475241354359844,3.73809887069065,1.05871935260947,1.13005355350267,0.223451028835163,1.25424123231399,0.435601881644631,2.60584773159534,1.65539602964151,1.33573540818874,-2.06634858156219,2.41621553138569,-0.65854543594228,-0.349350462245035,-0.133340523487762,3.44866129971712,0.416286958256694,2.017775757207,0.224105477944048,-0.665075091996844,0.484970272372718,2.95384031678703,-2.13311870066938,3.21318139692385,3.21318139692385,2.39475493881386,3.07343254552014,3.21851393233907,-0.987263287431154,3.00993187114339,1.96023895805405,-0.173070621092023,0.0917543456439035,3.31638908558079,-0.465440898530015,-2.02011354828517,2.65977037654032,-1.1181147878452,3.34042352722559,-0.571568026831278,2.61066526072969,1.71865509119872,2.24805854987932,0.565351760833044,1.90268606864645,-0.369147231434424,0.531827754530034,1.92659070366256,1.23792567853634,0.598566014551417,0.34203460131123,-0.354337307667842,1.54031536716823,1.09731740772548,1.36666881823706,1.47732489590203,2.40858681294345,0.399284546869126,2.50263433693128,0.496643381506742,-2.03129778726819,2.27637845226733,2.15639526301145,1.76412220261841,0.591415770080559,2.21330839338203,1.34884619208068,-0.251145137166718,-0.080027147951493,0.766418587640426,-2.64023608453536,1.17998994584231,-0.784882295827413,-2.06228531068097,0.658091677109319,0.468546487821552,1.35479464701047,0.835395650721895,2.86292051764493,3.00045563452184,-1.60971682344665,0.0188728518097707,1.31727864706479,0.628608770463397,-0.739726722386883,0.0985177866054404,1.68244987783902,-0.623532047395146,1.55771690589223,0.78761547534282,1.94920286472495,2.20394189257894,0.731951264168239,0.351914479429977,-0.442402108245499,0.547419156365293,0.768108420716913,1.8244656739619,0.66312352916023,0.226780828524682,3.14019911265915,2.95483267157765,2.31659996512627,2.72177003031435,1.7573329477584,1.50184192401866,0.777575801365206,1.7321917437254,1.45763654806464,3.0838821504925,0.414129176710117,2.94916975674274,1.93673823716038,-0.522670470531467,1.90983495583304,0.544332561211608,-0.308858187076571,-0.0981340691472464,-2.04743366882499,2.20744332106805,0.354248308342665,-1.67512782312576,3.03036580971943,2.30625611004024,2.73841686677137,1.24814068779575,0.911890137114192,0.457290659798002,1.73808561755448,1.12161758212152,1.08363031999798,-2.71166355807152,-1.66142481065412,-0.298291494181006,0.886753120201913,-0.895761830879663,-0.617892913434303,1.03936168696775,-2.76168070606996,-1.58549306797184,0.669537018619101,0.511343635421222,0.609428911046179,0.630232517689152,0.693047015819274,2.43890227573034,2.93365767635143,-2.55862101005239,-0.233912556314622,-1.3555886924964,1.35433173762741,-1.12731741937788,0.994417192172355,0.981616992475273,-0.625943265483001],"text":["Afghanistan<br />Deliberation:  1.17243192<br />Zensur:  0.25662451","Albania<br />Deliberation:  1.40816039<br />Zensur:  0.95128464","Armenia<br />Deliberation:  1.11402735<br />Zensur: -0.45708680","Angola<br />Deliberation: -0.36881958<br />Zensur:  0.18248589","Argentina<br />Deliberation:  2.47269856<br />Zensur:  0.44599586","Austria<br />Deliberation:  2.18911762<br />Zensur:  1.88739536","Australia<br />Deliberation:  1.86062328<br />Zensur:  2.81121685","Azerbaijan<br />Deliberation: -1.43076889<br />Zensur: -2.29487174","Bosnia and Herzegovina<br />Deliberation:  1.70084920<br />Zensur:  0.59970172","Barbados<br />Deliberation:  1.01701591<br />Zensur:  1.55308106","Bangladesh<br />Deliberation:  0.76795823<br />Zensur:  0.47524135","Belgium<br />Deliberation:  1.34112891<br />Zensur:  3.73809887","Burkina Faso<br />Deliberation:  1.28427786<br />Zensur:  1.05871935","Bulgaria<br />Deliberation:  1.22028298<br />Zensur:  1.13005355","Burundi<br />Deliberation:  0.29519655<br />Zensur:  0.22345103","Benin<br />Deliberation:  1.42962660<br />Zensur:  1.25424123","Bolivia (Plurinational State of)<br />Deliberation:  2.08803171<br />Zensur:  0.43560188","Brazil<br />Deliberation:  2.23726476<br />Zensur:  2.60584773","Bhutan<br />Deliberation:  0.80722352<br />Zensur:  1.65539603","Botswana<br />Deliberation:  0.97640593<br />Zensur:  1.33573541","Belarus<br />Deliberation: -1.14705925<br />Zensur: -2.06634858","Canada<br />Deliberation:  1.72450570<br />Zensur:  2.41621553","Democratic Republic of the Congo<br />Deliberation:  0.35981397<br />Zensur: -0.65854544","Central African Republic<br />Deliberation:  0.19949648<br />Zensur: -0.34935046","Congo<br />Deliberation: -0.22888684<br />Zensur: -0.13334052","Switzerland<br />Deliberation:  3.45612415<br />Zensur:  3.44866130","Côte D'Ivoire<br />Deliberation: -0.02085784<br />Zensur:  0.41628696","Chile<br />Deliberation:  1.60981002<br />Zensur:  2.01777576","Cameroon<br />Deliberation:  0.89099646<br />Zensur:  0.22410548","China<br />Deliberation: -0.04897923<br />Zensur: -0.66507509","Colombia<br />Deliberation:  0.51479957<br />Zensur:  0.48497027","Costa Rica<br />Deliberation:  2.45826056<br />Zensur:  2.95384032","Cuba<br />Deliberation: -0.83153694<br />Zensur: -2.13311870","Cabo Verde<br />Deliberation:  1.33655815<br />Zensur:  3.21318140","Cabo Verde<br />Deliberation:  1.33655815<br />Zensur:  3.21318140","Cyprus<br />Deliberation:  1.92105063<br />Zensur:  2.39475494","Czech Republic<br />Deliberation:  1.22176197<br />Zensur:  3.07343255","Germany<br />Deliberation:  2.18942506<br />Zensur:  3.21851393","Djibouti<br />Deliberation:  0.64520192<br />Zensur: -0.98726329","Denmark<br />Deliberation:  2.95655064<br />Zensur:  3.00993187","Dominican Republic<br />Deliberation:  1.86402466<br />Zensur:  1.96023896","Algeria<br />Deliberation: -0.24378493<br />Zensur: -0.17307062","Ecuador<br />Deliberation:  1.56686512<br />Zensur:  0.09175435","Estonia<br />Deliberation:  2.00724415<br />Zensur:  3.31638909","Egypt<br />Deliberation:  0.31278819<br />Zensur: -0.46544090","Eritrea<br />Deliberation: -1.61113826<br />Zensur: -2.02011355","Spain<br />Deliberation:  2.22027195<br />Zensur:  2.65977038","Ethiopia<br />Deliberation: -0.42174174<br />Zensur: -1.11811479","Finland<br />Deliberation:  3.21728390<br />Zensur:  3.34042353","Fiji<br />Deliberation: -0.70168270<br />Zensur: -0.57156803","France<br />Deliberation:  2.12787336<br />Zensur:  2.61066526","Gabon<br />Deliberation:  1.32272183<br />Zensur:  1.71865509","United Kingdom of Great Britain and Northern Ireland<br />Deliberation:  2.30751571<br />Zensur:  2.24805855","Georgia<br />Deliberation:  1.21567991<br />Zensur:  0.56535176","Ghana<br />Deliberation:  2.35011394<br />Zensur:  1.90268607","Gambia (Islamic Republic of the)<br />Deliberation: -0.73671380<br />Zensur: -0.36914723","Guinea<br />Deliberation:  0.88041734<br />Zensur:  0.53182775","Greece<br />Deliberation:  2.56587670<br />Zensur:  1.92659070","Guatemala<br />Deliberation:  0.70180333<br />Zensur:  1.23792568","Guinea Bissau<br />Deliberation: -0.60177560<br />Zensur:  0.59856601","Guyana<br />Deliberation:  0.45553320<br />Zensur:  0.34203460","Honduras<br />Deliberation:  1.42291126<br />Zensur: -0.35433731","Croatia<br />Deliberation:  1.44237211<br />Zensur:  1.54031537","Haiti<br />Deliberation:  0.70012495<br />Zensur:  1.09731741","Hungary<br />Deliberation: -0.05957232<br />Zensur:  1.36666882","Indonesia<br />Deliberation:  2.77077823<br />Zensur:  1.47732490","Ireland<br />Deliberation:  1.13804777<br />Zensur:  2.40858681","Israel<br />Deliberation:  1.57664040<br />Zensur:  0.39928455","India<br />Deliberation:  1.68560412<br />Zensur:  2.50263434","Iraq<br />Deliberation:  1.43225501<br />Zensur:  0.49664338","Iran (Islamic Republic of)<br />Deliberation:  0.17764681<br />Zensur: -2.03129779","Iceland<br />Deliberation:  1.77285582<br />Zensur:  2.27637845","Italy<br />Deliberation:  1.61066714<br />Zensur:  2.15639526","Jamaica<br />Deliberation:  1.90214159<br />Zensur:  1.76412220","Jordan<br />Deliberation:  0.54890718<br />Zensur:  0.59141577","Japan<br />Deliberation:  1.76864437<br />Zensur:  2.21330839","Kenya<br />Deliberation:  2.24750526<br />Zensur:  1.34884619","Kyrgyzstan<br />Deliberation:  1.26838216<br />Zensur: -0.25114514","Cambodia<br />Deliberation: -0.42059377<br />Zensur: -0.08002715","Comoros<br />Deliberation:  0.18871442<br />Zensur:  0.76641859","Democratic People's Republic of Korea<br />Deliberation: -2.58777062<br />Zensur: -2.64023608","Republic of Korea<br />Deliberation:  1.47046273<br />Zensur:  1.17998995","Kazakhstan<br />Deliberation: -0.37777766<br />Zensur: -0.78488230","Lao People's Democratic Republic<br />Deliberation: -1.35087110<br />Zensur: -2.06228531","Lebanon<br />Deliberation:  1.04812454<br />Zensur:  0.65809168","Sri Lanka<br />Deliberation: -0.04442799<br />Zensur:  0.46854649","Liberia<br />Deliberation:  2.06125034<br />Zensur:  1.35479465","Lesotho<br />Deliberation:  0.45847229<br />Zensur:  0.83539565","Lithuania<br />Deliberation:  1.88051772<br />Zensur:  2.86292052","Latvia<br />Deliberation:  2.02372577<br />Zensur:  3.00045563","Libya<br />Deliberation: -0.91705311<br />Zensur: -1.60971682","Morocco<br />Deliberation:  1.02776308<br />Zensur:  0.01887285","Republic of Moldova<br />Deliberation:  0.87843631<br />Zensur:  1.31727865","Montenegro<br />Deliberation:  1.72026971<br />Zensur:  0.62860877","Madagascar<br />Deliberation:  0.42636739<br />Zensur: -0.73972672","The former Yugoslav Republic of Macedonia<br />Deliberation:  0.89422969<br />Zensur:  0.09851779","Mali<br />Deliberation:  1.34773120<br />Zensur:  1.68244988","Myanmar<br />Deliberation: -1.22207249<br />Zensur: -0.62353205","Mongolia<br />Deliberation:  3.15932424<br />Zensur:  1.55771691","Mauritania<br />Deliberation:  0.87638981<br />Zensur:  0.78761548","Mauritius<br />Deliberation:  2.56328936<br />Zensur:  1.94920286","Maldives<br />Deliberation:  1.34562225<br />Zensur:  2.20394189","Malawi<br />Deliberation:  0.75891698<br />Zensur:  0.73195126","Mexico<br />Deliberation:  1.00126232<br />Zensur:  0.35191448","Malaysia<br />Deliberation: -0.05365221<br />Zensur: -0.44240211","Mozambique<br />Deliberation:  0.52297387<br />Zensur:  0.54741916","Namibia<br />Deliberation:  0.52492639<br />Zensur:  0.76810842","Niger<br />Deliberation:  1.21650097<br />Zensur:  1.82446567","Nigeria<br />Deliberation:  0.89347706<br />Zensur:  0.66312353","Nicaragua<br />Deliberation:  0.68973273<br />Zensur:  0.22678083","Netherlands<br />Deliberation:  1.31476127<br />Zensur:  3.14019911","Norway<br />Deliberation:  2.22119291<br />Zensur:  2.95483267","Nepal<br />Deliberation:  1.83608295<br />Zensur:  2.31659997","New Zealand<br />Deliberation:  1.18670282<br />Zensur:  2.72177003","Panama<br />Deliberation:  1.48112674<br />Zensur:  1.75733295","Peru<br />Deliberation:  0.69345928<br />Zensur:  1.50184192","Papua New Guinea<br />Deliberation: -0.07114588<br />Zensur:  0.77757580","Philippines<br />Deliberation:  1.77999875<br />Zensur:  1.73219174","Pakistan<br />Deliberation:  1.01630829<br />Zensur:  1.45763655","Poland<br />Deliberation:  1.73766224<br />Zensur:  3.08388215","Palestine, State of<br />Deliberation:  0.87680334<br />Zensur:  0.41412918","Portugal<br />Deliberation:  1.15077903<br />Zensur:  2.94916976","Paraguay<br />Deliberation:  0.88881015<br />Zensur:  1.93673824","Qatar<br />Deliberation: -0.69070123<br />Zensur: -0.52267047","Romania<br />Deliberation:  0.59928930<br />Zensur:  1.90983496","Serbia<br />Deliberation:  1.56856433<br />Zensur:  0.54433256","Russian Federation<br />Deliberation:  0.09617678<br />Zensur: -0.30885819","Rwanda<br />Deliberation: -0.54728124<br />Zensur: -0.09813407","Saudi Arabia<br />Deliberation: -1.26480482<br />Zensur: -2.04743367","Solomon Islands<br />Deliberation:  0.12752243<br />Zensur:  2.20744332","Seychelles<br />Deliberation:  0.55021191<br />Zensur:  0.35424831","Sudan<br />Deliberation: -1.41506290<br />Zensur: -1.67512782","Sweden<br />Deliberation:  2.89041334<br />Zensur:  3.03036581","Slovenia<br />Deliberation:  2.07739047<br />Zensur:  2.30625611","Slovakia<br />Deliberation:  0.95492771<br />Zensur:  2.73841687","Sierra Leone<br />Deliberation:  1.27357857<br />Zensur:  1.24814069","Senegal<br />Deliberation:  2.73053171<br />Zensur:  0.91189014","Somalia<br />Deliberation: -1.37735205<br />Zensur:  0.45729066","Suriname<br />Deliberation:  1.99131196<br />Zensur:  1.73808562","Sao Tome and Principe<br />Deliberation:  0.79153870<br />Zensur:  1.12161758","El Salvador<br />Deliberation:  0.76122336<br />Zensur:  1.08363032","Syrian Arab Republic<br />Deliberation: -2.29732018<br />Zensur: -2.71166356","Swaziland<br />Deliberation: -0.85696334<br />Zensur: -1.66142481","Chad<br />Deliberation: -1.17120103<br />Zensur: -0.29829149","Togo<br />Deliberation:  0.80431604<br />Zensur:  0.88675312","Thailand<br />Deliberation:  2.41159047<br />Zensur: -0.89576183","Tajikistan<br />Deliberation: -1.44287588<br />Zensur: -0.61789291","Timor-Leste<br />Deliberation:  0.71797403<br />Zensur:  1.03936169","Turkmenistan<br />Deliberation: -1.46192382<br />Zensur: -2.76168071","Tunisia<br />Deliberation: -0.24501587<br />Zensur: -1.58549307","Turkey<br />Deliberation:  1.74511574<br />Zensur:  0.66953702","Trinidad and Tobago<br />Deliberation:  1.59443723<br />Zensur:  0.51134364","United Republic of Tanzania<br />Deliberation:  0.86943292<br />Zensur:  0.60942891","Ukraine<br />Deliberation:  2.14377332<br />Zensur:  0.63023252","Uganda<br />Deliberation:  1.23204176<br />Zensur:  0.69304702","United States of America<br />Deliberation:  2.69608818<br />Zensur:  2.43890228","Uruguay<br />Deliberation:  2.46163913<br />Zensur:  2.93365768","Uzbekistan<br />Deliberation: -1.63965597<br />Zensur: -2.55862101","Venezuela, Bolivarian Republic of<br />Deliberation:  0.49515462<br />Zensur: -0.23391256","Viet Nam<br />Deliberation: -0.23964540<br />Zensur: -1.35558869","Vanuatu<br />Deliberation:  2.77770751<br />Zensur:  1.35433174","Yemen<br />Deliberation:  0.25406556<br />Zensur: -1.12731742","South Africa<br />Deliberation:  1.76520453<br />Zensur:  0.99441719","Zambia<br />Deliberation:  1.24471265<br />Zensur:  0.98161699","Zimbabwe<br />Deliberation: -0.28337872<br />Zensur: -0.62594327"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(179,179,179,1)","opacity":1,"size":5.66929133858268,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(179,179,179,1)"}},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-2.58777062326688,-2.51126562613459,-2.4347606290023,-2.35825563187001,-2.28175063473772,-2.20524563760544,-2.12874064047315,-2.05223564334086,-1.97573064620857,-1.89922564907628,-1.82272065194399,-1.7462156548117,-1.66971065767942,-1.59320566054713,-1.51670066341484,-1.44019566628255,-1.36369066915026,-1.28718567201797,-1.21068067488568,-1.13417567775339,-1.05767068062111,-0.981165683488816,-0.904660686356528,-0.828155689224239,-0.75165069209195,-0.675145694959662,-0.598640697827373,-0.522135700695084,-0.445630703562796,-0.369125706430507,-0.292620709298218,-0.216115712165929,-0.139610715033641,-0.0631057179013519,0.0133992792309368,0.0899042763632258,0.166409273495514,0.242914270627803,0.319419267760092,0.39592426489238,0.47242926202467,0.548934259156958,0.625439256289247,0.701944253421535,0.778449250553824,0.854954247686113,0.931459244818402,1.00796424195069,1.08446923908298,1.16097423621527,1.23747923334756,1.31398423047985,1.39048922761213,1.46699422474442,1.54349922187671,1.620004219009,1.69650921614129,1.77301421327358,1.84951921040587,1.92602420753816,2.00252920467044,2.07903420180273,2.15553919893502,2.23204419606731,2.3085491931996,2.38505419033189,2.46155918746418,2.53806418459646,2.61456918172875,2.69107417886104,2.76757917599333,2.84408417312562,2.92058917025791,2.9970941673902,3.07359916452249,3.15010416165477,3.22660915878706,3.30311415591935,3.37961915305164,3.45612415018393],"y":[-2.56251232563906,-2.48818799516751,-2.41386366469595,-2.33953933422439,-2.26521500375284,-2.19089067328128,-2.11656634280973,-2.04224201233817,-1.96791768186662,-1.89359335139506,-1.81926902092351,-1.74494469045195,-1.6706203599804,-1.59629602950884,-1.52197169903729,-1.44764736856573,-1.37332303809417,-1.29899870762262,-1.22467437715106,-1.15035004667951,-1.07602571620795,-1.0017013857364,-0.927377055264842,-0.853052724793286,-0.778728394321731,-0.704404063850176,-0.63007973337862,-0.555755402907065,-0.481431072435509,-0.407106741963954,-0.332782411492398,-0.258458081020843,-0.184133750549288,-0.109809420077732,-0.0354850896061769,0.0388392408653789,0.113163571336934,0.18748790180849,0.261812232280045,0.3361365627516,0.410460893223156,0.484785223694711,0.559109554166267,0.633433884637822,0.707758215109377,0.782082545580933,0.856406876052488,0.930731206524044,1.0050555369956,1.07937986746715,1.15370419793871,1.22802852841027,1.30235285888182,1.37667718935338,1.45100151982493,1.52532585029649,1.59965018076804,1.6739745112396,1.74829884171115,1.82262317218271,1.89694750265426,1.97127183312582,2.04559616359738,2.11992049406893,2.19424482454049,2.26856915501204,2.3428934854836,2.41721781595515,2.49154214642671,2.56586647689826,2.64019080736982,2.71451513784137,2.78883946831293,2.86316379878448,2.93748812925604,3.0118124597276,3.08613679019915,3.16046112067071,3.23478545114226,3.30910978161382],"text":["Deliberation: -2.58777062<br />Zensur: -2.56251233","Deliberation: -2.51126563<br />Zensur: -2.48818800","Deliberation: -2.43476063<br />Zensur: -2.41386366","Deliberation: -2.35825563<br />Zensur: -2.33953933","Deliberation: -2.28175063<br />Zensur: -2.26521500","Deliberation: -2.20524564<br />Zensur: -2.19089067","Deliberation: -2.12874064<br />Zensur: -2.11656634","Deliberation: -2.05223564<br />Zensur: -2.04224201","Deliberation: -1.97573065<br />Zensur: -1.96791768","Deliberation: -1.89922565<br />Zensur: -1.89359335","Deliberation: -1.82272065<br />Zensur: -1.81926902","Deliberation: -1.74621565<br />Zensur: -1.74494469","Deliberation: -1.66971066<br />Zensur: -1.67062036","Deliberation: -1.59320566<br />Zensur: -1.59629603","Deliberation: -1.51670066<br />Zensur: -1.52197170","Deliberation: -1.44019567<br />Zensur: -1.44764737","Deliberation: -1.36369067<br />Zensur: -1.37332304","Deliberation: -1.28718567<br />Zensur: -1.29899871","Deliberation: -1.21068067<br />Zensur: -1.22467438","Deliberation: -1.13417568<br />Zensur: -1.15035005","Deliberation: -1.05767068<br />Zensur: -1.07602572","Deliberation: -0.98116568<br />Zensur: -1.00170139","Deliberation: -0.90466069<br />Zensur: -0.92737706","Deliberation: -0.82815569<br />Zensur: -0.85305272","Deliberation: -0.75165069<br />Zensur: -0.77872839","Deliberation: -0.67514569<br />Zensur: -0.70440406","Deliberation: -0.59864070<br />Zensur: -0.63007973","Deliberation: -0.52213570<br />Zensur: -0.55575540","Deliberation: -0.44563070<br />Zensur: -0.48143107","Deliberation: -0.36912571<br />Zensur: -0.40710674","Deliberation: -0.29262071<br />Zensur: -0.33278241","Deliberation: -0.21611571<br />Zensur: -0.25845808","Deliberation: -0.13961072<br />Zensur: -0.18413375","Deliberation: -0.06310572<br />Zensur: -0.10980942","Deliberation:  0.01339928<br />Zensur: -0.03548509","Deliberation:  0.08990428<br />Zensur:  0.03883924","Deliberation:  0.16640927<br />Zensur:  0.11316357","Deliberation:  0.24291427<br />Zensur:  0.18748790","Deliberation:  0.31941927<br />Zensur:  0.26181223","Deliberation:  0.39592426<br />Zensur:  0.33613656","Deliberation:  0.47242926<br />Zensur:  0.41046089","Deliberation:  0.54893426<br />Zensur:  0.48478522","Deliberation:  0.62543926<br />Zensur:  0.55910955","Deliberation:  0.70194425<br />Zensur:  0.63343388","Deliberation:  0.77844925<br />Zensur:  0.70775822","Deliberation:  0.85495425<br />Zensur:  0.78208255","Deliberation:  0.93145924<br />Zensur:  0.85640688","Deliberation:  1.00796424<br />Zensur:  0.93073121","Deliberation:  1.08446924<br />Zensur:  1.00505554","Deliberation:  1.16097424<br />Zensur:  1.07937987","Deliberation:  1.23747923<br />Zensur:  1.15370420","Deliberation:  1.31398423<br />Zensur:  1.22802853","Deliberation:  1.39048923<br />Zensur:  1.30235286","Deliberation:  1.46699422<br />Zensur:  1.37667719","Deliberation:  1.54349922<br />Zensur:  1.45100152","Deliberation:  1.62000422<br />Zensur:  1.52532585","Deliberation:  1.69650922<br />Zensur:  1.59965018","Deliberation:  1.77301421<br />Zensur:  1.67397451","Deliberation:  1.84951921<br />Zensur:  1.74829884","Deliberation:  1.92602421<br />Zensur:  1.82262317","Deliberation:  2.00252920<br />Zensur:  1.89694750","Deliberation:  2.07903420<br />Zensur:  1.97127183","Deliberation:  2.15553920<br />Zensur:  2.04559616","Deliberation:  2.23204420<br />Zensur:  2.11992049","Deliberation:  2.30854919<br />Zensur:  2.19424482","Deliberation:  2.38505419<br />Zensur:  2.26856916","Deliberation:  2.46155919<br />Zensur:  2.34289349","Deliberation:  2.53806418<br />Zensur:  2.41721782","Deliberation:  2.61456918<br />Zensur:  2.49154215","Deliberation:  2.69107418<br />Zensur:  2.56586648","Deliberation:  2.76757918<br />Zensur:  2.64019081","Deliberation:  2.84408417<br />Zensur:  2.71451514","Deliberation:  2.92058917<br />Zensur:  2.78883947","Deliberation:  2.99709417<br />Zensur:  2.86316380","Deliberation:  3.07359916<br />Zensur:  2.93748813","Deliberation:  3.15010416<br />Zensur:  3.01181246","Deliberation:  3.22660916<br />Zensur:  3.08613679","Deliberation:  3.30311416<br />Zensur:  3.16046112","Deliberation:  3.37961915<br />Zensur:  3.23478545","Deliberation:  3.45612415<br />Zensur:  3.30910978"],"type":"scatter","mode":"lines","name":"fitted values","line":{"width":3.77952755905512,"color":"rgba(51,102,255,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":27.1581569115816,"r":7.97011207970112,"b":43.8356164383562,"l":40.6475716064757},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(1,2,2,1)","family":"","size":15.9402241594022},"xaxis":{"domain":[0,1],"type":"linear","autorange":false,"tickmode":"array","range":[-2.88996536193942,3.75831888885647],"ticktext":["-2","0","2"],"tickvals":[-2,0,2],"ticks":"outside","tickcolor":"rgba(115,115,115,1)","ticklen":3.98505603985056,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":"Öffentliche Deliberation","titlefont":{"color":"rgba(1,2,2,1)","family":"","size":15.9402241594022},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"type":"linear","autorange":false,"tickmode":"array","range":[-3.08666968490799,4.06308784952868],"ticktext":["-2","0","2","4"],"tickvals":[-2,0,2,4],"ticks":"outside","tickcolor":"rgba(115,115,115,1)","ticklen":3.98505603985056,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":12.7521793275218},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":"Zensur","titlefont":{"color":"rgba(1,2,2,1)","family":"","size":15.9402241594022},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(115,115,115,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":false,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(1,2,2,1)","family":"","size":12.7521793275218}},"hovermode":"closest"},"source":"A","attrs":{"1365e4ddfceee":{"text":{},"x":{},"y":{},"type":"ggplotly"},"1365e208a9333":{"x":{},"y":{}}},"cur_data":"1365e4ddfceee","visdat":{"1365e4ddfceee":["function (y) ","x"],"1365e208a9333":["function (y) ","x"]},"config":{"modeBarButtonsToAdd":[{"name":"Collaborate","icon":{"width":1000,"ascent":500,"descent":-50,"path":"M487 375c7-10 9-23 5-36l-79-259c-3-12-11-23-22-31-11-8-22-12-35-12l-263 0c-15 0-29 5-43 15-13 10-23 23-28 37-5 13-5 25-1 37 0 0 0 3 1 7 1 5 1 8 1 11 0 2 0 4-1 6 0 3-1 5-1 6 1 2 2 4 3 6 1 2 2 4 4 6 2 3 4 5 5 7 5 7 9 16 13 26 4 10 7 19 9 26 0 2 0 5 0 9-1 4-1 6 0 8 0 2 2 5 4 8 3 3 5 5 5 7 4 6 8 15 12 26 4 11 7 19 7 26 1 1 0 4 0 9-1 4-1 7 0 8 1 2 3 5 6 8 4 4 6 6 6 7 4 5 8 13 13 24 4 11 7 20 7 28 1 1 0 4 0 7-1 3-1 6-1 7 0 2 1 4 3 6 1 1 3 4 5 6 2 3 3 5 5 6 1 2 3 5 4 9 2 3 3 7 5 10 1 3 2 6 4 10 2 4 4 7 6 9 2 3 4 5 7 7 3 2 7 3 11 3 3 0 8 0 13-1l0-1c7 2 12 2 14 2l218 0c14 0 25-5 32-16 8-10 10-23 6-37l-79-259c-7-22-13-37-20-43-7-7-19-10-37-10l-248 0c-5 0-9-2-11-5-2-3-2-7 0-12 4-13 18-20 41-20l264 0c5 0 10 2 16 5 5 3 8 6 10 11l85 282c2 5 2 10 2 17 7-3 13-7 17-13z m-304 0c-1-3-1-5 0-7 1-1 3-2 6-2l174 0c2 0 4 1 7 2 2 2 4 4 5 7l6 18c0 3 0 5-1 7-1 1-3 2-6 2l-173 0c-3 0-5-1-8-2-2-2-4-4-4-7z m-24-73c-1-3-1-5 0-7 2-2 3-2 6-2l174 0c2 0 5 0 7 2 3 2 4 4 5 7l6 18c1 2 0 5-1 6-1 2-3 3-5 3l-174 0c-3 0-5-1-7-3-3-1-4-4-5-6z"},"click":"function(gd) { \n        // is this being viewed in RStudio?\n        if (location.search == '?viewer_pane=1') {\n          alert('To learn about plotly for collaboration, visit:\\n https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html');\n        } else {\n          window.open('https://cpsievert.github.io/plotly_book/plot-ly-for-collaboration.html', '_blank');\n        }\n      }"}],"cloud":false},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1}},"base_url":"https://plot.ly"},"evals":["config.modeBarButtonsToAdd.0.click"],"jsHooks":{"render":[{"code":"function(el, x) { var ctConfig = crosstalk.var('plotlyCrosstalkOpts').set({\"on\":\"plotly_click\",\"persistent\":false,\"dynamic\":false,\"selectize\":false,\"opacityDim\":0.2,\"selected\":{\"opacity\":1}}); }","data":null}]}}</script>
+<p>Eine wunderbar, interaktive Grafik zeigt eine Regressionsgerade und die Kovarianz zweier Variablen <a href="http://rpsychologist.com/d3/correlation/">correlation von rpsychologist</a>. Nutze den play ground um eine Intuition dafür zu bekommen.</p>
+</div>
+<div id="simple-lineare-regression" class="section level2">
+<h2><span class="header-section-number">2.2</span> Simple Lineare Regression</h2>
+<p>Mathematische Notationen helfen dabei statistische Konzepte besser zu verstehen und die eigenen Modellierungen für andere zu dokumentieren. Eine einheitliche Notation gibt es nicht.</p>
+<p>Aus der Schule kennt man die Formel einer Geraden</p>
+<p><span class="math display">\[y = mx + b \]</span> wobei m die Steigung und b den y-Achsenabschnitt angibt. Die Steigung m (engl. Slope) ergibt sich aus</p>
+<p><span class="math display">\[m = \frac{rise}{run} = \frac{\text{change in y}}{\text{change in x}} = \frac{\Delta Y}{\Delta X} = \beta_1\]</span></p>
+<p>In der Statistik wurden über die Jahrzehnte unterschiedliche Schreibweisen eingeführt die sich jedoch nur formal und nicht inhaltlich unterscheiden. So wird der y-Achsenabschnitt der Regressionsgerade (engl. Intercept) an erster Stelle geschrieben und mit <span class="math inline">\(\beta_0\)</span>. Hinzu addiert wird die (allgemeine) Steigung <span class="math inline">\(\beta_1\)</span> multipliziert mit der x-Ausprägung und dem unbeobachteten/ individuellen Fehler <span class="math inline">\(\varepsilon_i\)</span>.</p>
+<p><img align = "center" src="images/linear_equation2.png" width = "100%"></p>
+<p>Diese Gleichung wird unterschieden in</p>
+<ul>
+<li>Strukturelle Komponente <span class="math inline">\(\hat y_i = \beta_0 + \beta_1x_i\)</span> und</li>
+<li>Residuen <span class="math inline">\(\varepsilon_i \sim N(0, \sigma^2)\)</span></li>
+</ul>
+<p><span class="math inline">\(\hat y_i\)</span> ist ein Schätzwert für jede Beobachtung i basierend auf den <span class="math inline">\(\beta_k\)</span> Parametern, geschätzt über alle Beobachtungen hinweg. Die Abstände/ Distanzen zwischen den Beobachtungen und Schätzungen <span class="math inline">\((y_i - \hat y_i) \sim N(0, \sigma^2)\)</span> werden als zufälliger Fehler betrachtet der normal verteilt um die Regressionsgerade streut.</p>
+<p>Die erste Hypothese unterstellt</p>
+<p><span class="math display">\[\text{Zensur}_i = \beta_0 + \beta_1 \text{ Deliberation}_i + \varepsilon_i\]</span></p>
+<p>und die Umsetzung in R ziemlich einfach. Regressionsformeln werden in R durch die sogenannte <code>formula</code> definiert. In die Funktion <code>lm</code> (<em>linear model</em>) wird erst die Y und dann die X Variable(n) geschrieben. Das Symbol <code>~</code> (Tilde) wird anstelle des mathematischen ist gleich <code>=</code> genutzt. Zuletzt folgt durch ein Komma getrennt der Datensatz. Alle Berechnungen der Regression werden in ein neues Regressionsobjekt <code>fit1</code> (beliebiger Name) gespeichert.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit1 &lt;-<span class="st"> </span><span class="kw">lm</span>(gov_cens ~<span class="st"> </span>engage_soc, <span class="dt">data =</span> dat)
+<span class="kw">summary</span>(fit1)</code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = gov_cens ~ engage_soc, data = dat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.1901 -0.6665  0.0333  0.5814  2.4837 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -0.04850    0.09312  -0.521    0.603    
+## engage_soc   0.97150    0.06223  15.612   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.9459 on 163 degrees of freedom
+## Multiple R-squared:  0.5993, Adjusted R-squared:  0.5968 
+## F-statistic: 243.7 on 1 and 163 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Das <span class="math inline">\(R^2\)</span> ist mit knapp 0.6 ziemlich hoch (jedoch nicht unüblich für Macro Studien). Des Weiteren liegt ein positiv signifikanter Effekt von <code>engage_soc</code> auf <code>gov_cens</code> vor.</p>
+</div>
+<div id="interpretation-der-koeffizienten" class="section level2">
+<h2><span class="header-section-number">2.3</span> Interpretation der Koeffizienten</h2>
+<p>Unsere Regression <code>fit1</code> hat folgende Parameter geschätzt.</p>
+<p><span class="math display">\[y_i = -0.04 + 0.97*x_i + \varepsilon_i\]</span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">broom::<span class="kw">tidy</span>(fit1)</code></pre></div>
+<pre><code>##          term    estimate  std.error  statistic      p.value
+## 1 (Intercept) -0.04850244 0.09311969 -0.5208613 6.031703e-01
+## 2  engage_soc  0.97149642 0.06222666 15.6122222 3.455146e-34</code></pre>
+<p>Der Intercept <span class="math inline">\(\beta_0\)</span> besagt, dass der Erwartungswert für Zensur bei -0.04 liegt, wenn der Einfluss von Deliberation (X-Variablen) konstant Null gehalten wird. Und die Steigung <span class="math inline">\(\beta_1\)</span> gibt an, dass wenn öffentliche Deliberation [-2.58 &lt; <code>engage_soc</code> &lt; 3.45] um eine Einheit ansteigt, sich der Zensur Index [-2.76 &lt; <code>gov_cens</code> &lt; 3.73] um 0.97 Einheiten verbessert.</p>
+<p>Des Weiteren ist wichtig zu verstehen wann ein Parameter statisch signifikant ist. In anderen Worten, können wir behaupten, dass diese Parameter signifikant von 0 abweichen? Anders formuliert, ist ein bestimmter Parameter konsistent geschätzt oder ist die Schätzung ein reines Produkt des Zufalls? Zur Beantwortung dieser Fragen stehen zwei Konzepte zur Verfügung:</p>
+<ol style="list-style-type: decimal">
+<li>Konfidenzintervalle</li>
+<li>Null-Hypothesentest (NHST)</li>
+</ol>
+<p>Beide Tests basieren auf den Standardfehler <code>std.error</code> (SE), welcher die Abweichungen/ Fehlerstreuung um den Parameter beschreibt.</p>
+<p><span class="math display">\[var[\beta_0] = \sigma^2 \left[\frac{1}{n} + \frac{\bar x^2}{\sum^n_{i=1} (x_i - \bar x)^2} \right]\]</span> <span class="math display">\[SE[\beta_1] = \sqrt{\frac{\sigma^2}{\sum^n_{i=1} (x_i - \bar x)^2}} = \frac{\sigma}{s_x\sqrt{n}}\]</span> <span class="math inline">\(\sigma^2 = var(\varepsilon)\)</span> ist die Fehlervarianz.</p>
+<div id="konfidenzintervall" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> Konfidenzintervall</h3>
+<p>Der Standardfehler kann wiederum genutzt werden um das <strong>Konfidenzintervall</strong> (Vertrauens-, Erwartungs-) eines Parameters zu berechnen. Per Konvention wird in den Sozialwissenschaften das 95% Signifikanzniveau (<span class="math inline">\(\alpha\)</span>, ja schon wieder Alpha) eingesetzt um relevante Effekte zu identifiezieren. Ein Konﬁdenzintervall ist so konstruiert, dass der wahre Parameter <span class="math inline">\(\beta_1\)</span> mit der Wahrscheinlichkeit <span class="math inline">\(1-\alpha\)</span> überdeckt wird. Somit wird davon ausgegangen, dass in 95% der Fälle (bei unendlicher Wiederholung des Zufallsamples) die stochastischen Intervallgrenzen den wahren Parameter überlappen.</p>
+<p><span class="math display">\[CI_{\beta_1} = \hat \beta_1 \pm t_{\frac{\alpha}{2}} \; \sigma_{\beta_1}\]</span></p>
+<p><span class="math display">\[[\hat\beta_1 - t_{\frac{\alpha}{2}} \; \sigma_{\beta_1} \leq \beta_1 \leq \hat \beta_1 + t_{\frac{\alpha}{2}}  \;\sigma_{\beta_1}]\]</span> <span class="math display">\[[0.97 - 1.96 * 0.06 \leq \beta_1 \leq 0.97 + 1.96 * 0.06]\]</span></p>
+<p><span class="math display">\[[0.85 \leq  \beta_1 \leq 1.08]\]</span></p>
+<p>Setzt man den geschätzten Parameter und den Standardfehler in die Formel ein errechnet sich eine untere Intervallgrenze von 0.85 und eine Obere von 1.08 in dem der wahre Effekt von Deliberation mit 95% Sicherheit liegt. Da das Konfidentintervall die Null nicht überlappt ist der positive Effekt von Deliberation auf Zensur statistisch signifikant (5% Irrtumswahrscheinlichkeit). Das lässt sich einfach in R überprüfen.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(fit1)</code></pre></div>
+<pre><code>##                  2.5 %   97.5 %
+## (Intercept) -0.2323789 0.135374
+## engage_soc   0.8486221 1.094371</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(fit1, <span class="dt">level =</span> <span class="fl">0.90</span>)</code></pre></div>
+<pre><code>##                    5 %      95 %
+## (Intercept) -0.2025462 0.1055413
+## engage_soc   0.8685576 1.0744352</code></pre>
+</div>
+<div id="nullhypothesentest" class="section level3">
+<h3><span class="header-section-number">2.3.2</span> Nullhypothesentest</h3>
+<p><img src="linear_model_files/figure-html/normal-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Wissenschaftliche Erkenntnisse sind ohne Null-Hypothesentests undenkbar. Erst formulieren Forscher ihre Theorien über die Welt in Arbeitshypothesen (<span class="math inline">\(H_A\)</span> oder <span class="math inline">\(H_1\)</span>). Eine Arbeitshypothese impliziert immer auch eine Nullhypothese, die meistens keinen Zusammenhang unterstellt bzw. dass der Parameter (einer Korrelation, einer Regression oder ein Gruppenmittelwertsunterschied) 0 ist. Wissenschaftliche Praxis besteht darin Beweise in Form von Daten und statistischer Tests gegen die Nullhypothese zu sammeln.</p>
+<p><span class="math display">\[H_0: \beta_1 = 0\]</span></p>
+<p><span class="math display">\[H_1: \beta_1 \neq 0\]</span></p>
+<p>In einer hypothetischen Welt in der die <span class="math inline">\(H_0\)</span> zu trifft und der Parameter eigentlich 0 ist, weit weicht der geschätzte Parameter <span class="math inline">\(\beta_1\)</span> davon ab?</p>
+<p><img src="linear_model_files/figure-html/sig-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>In statistics significance means visibility, not importance! In frequentist statistics confidence means reliability.</p>
+<p><span class="math display">\[t = \frac{\beta_1 - 0}{SE(\beta_1)} \sim N(0, 1) \text{ genauer }\sim t_{n-2}  \]</span></p>
+<p>welche die Distanz von <span class="math inline">\(\beta_1\)</span> zu 0 in Standardabweichungen misst. Je größer die t-Statistik desto kleiner der p-Wert. Grenzwerte für t sind in den Sozialwissenschaften 1.64 (<span class="math inline">\(\alpha = 90\% \rightarrow p = .10\)</span>) oder 1,96 (<span class="math inline">\(\alpha = 95\% \rightarrow p = .05\)</span>). Somit führen größere t-Werte, wie in diesem Fall 0.97/0.06 = 15.6 zu einem signifikanten Ergebnis (<span class="math inline">\(^{***}\)</span>). Der sehr kleine p-Wert (<code>p.value</code>) verrät, dass es sehr unwahrscheinlich ist, solch ein Ergebnis basierend auf dem reinen Zufall zu bekommen. Daher kann geschlussfolgert werden dass ein signifikanter Effekt vorliegt.</p>
+<blockquote>
+<p>Dauemnregel: Wenn <span class="math inline">\(\beta &gt; 2 SE(\beta)\)</span>, weicht der Parameter signifikant (95%) von Null ab.</p>
+</blockquote>
+</div>
+</div>
+<div id="multivariate-regression" class="section level2">
+<h2><span class="header-section-number">2.4</span> Multivariate Regression</h2>
+<p>Weitere unabhängige x Variablen werden durch ein <code>+</code> getrennt ins Model aufgenommen.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit0 &lt;-<span class="st"> </span><span class="kw">lm</span>(gov_cens ~<span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> dat) <span class="co"># Nullmodell</span>
+fit1 &lt;-<span class="st"> </span><span class="kw">lm</span>(gov_cens ~<span class="st"> </span>engage_soc, <span class="dt">data =</span> dat) <span class="co"># bivariat</span>
+fit2 &lt;-<span class="st"> </span><span class="kw">lm</span>(gov_cens ~<span class="st"> </span>engage_soc +<span class="st"> </span>pol_stability, <span class="dt">data =</span> dat) <span class="co"># multivariat</span></code></pre></div>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="6%" />
+<col width="84%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th><span class="math inline">\(\;\;\;\)</span></th>
+<th>Kriterium</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\beta_0\)</span></td>
+<td></td>
+<td>Der Achsenabschnitt sollte nicht interpretiert werden.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\beta_1\)</span></td>
+<td></td>
+<td>Der unstandardisierte Koefizient kann <span class="math inline">\(\pm \infty\)</span> groß werden. Je weiter von 0 entfernt desto besser.</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(SE(\beta_1)\)</span></td>
+<td></td>
+<td>Der Standardfehler des Steigungsparameters sollte Richtung 0 tendieren. Erst wenn <span class="math inline">\(SE(\beta_1) &gt; 2 * \beta_1\)</span> wird ein Parameter signifikant.</td>
+</tr>
+<tr class="even">
+<td>t-Statistik</td>
+<td></td>
+<td>Sollte größer als <span class="math inline">\(t_{crit} =1.96\)</span> um auf 95% Signifikanzniveau die <span class="math inline">\(H_0\)</span> zu verwerfen</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">broom::<span class="kw">tidy</span>(fit2)</code></pre></div>
+<pre><code>##            term  estimate  std.error statistic      p.value
+## 1   (Intercept) 0.1402374 0.09649941  1.453246 1.481018e-01
+## 2    engage_soc 0.8666913 0.06276660 13.808160 4.117354e-29
+## 3 pol_stability 0.3708442 0.07887432  4.701711 5.511040e-06</code></pre>
+<p>Die Parameter eines multivariaten Modells sind unstandardisiert und unkorreliert geschätzt. Centeris Paribus. Alle andere Effekte sind kontrolliert.</p>
+<p>In einer multivariaten Regression werden die <span class="math inline">\(\beta\)</span> Parameter über alle Beobachtungen hinweg geschätzt (wie ein allgemeiner Trend).</p>
+<p><span class="math display">\[y_1 = \beta_0 + \beta_1 x_{11} + \varepsilon_1\]</span> <span class="math display">\[y_2 = \beta_0 + \beta_1 x_{12} + \varepsilon_2\]</span> <span class="math display">\[y_3 = \beta_0 + \beta_1 x_{13} + \varepsilon_3\]</span> <span class="math display">\[\vdots\]</span> <span class="math display">\[y_n = \beta_0 + \beta_1 x_{1n} + \varepsilon_n\]</span></p>
+<p>Wenn man die Formel in Matrix-Darstellung präsentiert, sollte klar werden, dass <span class="math inline">\(k + 1\)</span> (Intercept) Parameter geschätzt werden. Auch steht fest <span class="math inline">\(n &gt;^! k\)</span> (mehr Beobachtungen als Parameter notwendig).</p>
+<p><span class="math display">\[
+\left[ 
+\begin{array}{c} 
+y_1 \\ 
+y_2 \\
+y_3 \\
+\vdots \\
+y_n 
+\end{array} 
+\right] 
+= \beta_0 +
+\begin{bmatrix} 
+x_{11} &amp; x_{12} &amp; ... &amp; x_{1k}\\ 
+x_{21} &amp; x_{22} &amp; ... &amp; x_{2k}\\
+x_{31} &amp; x_{32} &amp; ... &amp; x_{3k}\\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+x_{n1} &amp; x_{n2} &amp; ... &amp;  x_{nk}\\
+\end{bmatrix} 
+\times 
+\left[ 
+\begin{array}{c} 
+\beta_1 \\ 
+\beta_2 \\
+\vdots \\
+\beta_p 
+\end{array} 
+\right] 
++
+\left[ 
+\begin{array}{c} 
+\varepsilon_1 \\ 
+\varepsilon_2 \\
+\varepsilon_3 \\
+\vdots \\
+\varepsilon_n 
+\end{array} 
+\right] 
+\]</span></p>
+<p>Diese Matrix-Notation kann wiederum in einzelne Vektoren definiert werden.</p>
+<p><span class="math display">\[
+\left[ 
+\begin{array}{c} 
+y_1 \\ 
+y_2 \\
+y_3 \\
+\vdots \\
+y_n 
+\end{array} 
+\right] 
+= \beta_0 + 
+\beta_1 \times
+\left[ 
+\begin{array}{c} 
+x_{11}\\ 
+x_{21}\\
+x_{31}\\
+\vdots\\
+x_{n1}\\
+\end{array} 
+\right] 
++ 
+\beta_2 \times
+\left[ 
+\begin{array}{c} 
+x_{12}\\ 
+x_{22}\\
+x_{32}\\
+\vdots\\
+x_{n2}\\
+\end{array} 
+\right] 
++ 
+\beta_p \times
+\left[ 
+\begin{array}{c} 
+x_{1k}\\ 
+x_{2k}\\
+x_{3k}\\
+\vdots\\
+x_{nk}\\
+\end{array} 
+\right] 
++
+\left[ 
+\begin{array}{c} 
+\varepsilon_1 \\ 
+\varepsilon_2 \\
+\varepsilon_3 \\
+\vdots \\
+\varepsilon_n 
+\end{array} 
+\right] 
+\]</span></p>
+</div>
+<div id="ols-schatzung" class="section level2">
+<h2><span class="header-section-number">2.5</span> OLS Schätzung</h2>
+<p>Bei einer lineare Regression werden die spezifizierten Parameter mit der OLS (Ordinary Least Squares) Methode geschätzt. Die Optimierung dieser Loss oder Fehlerfunktion berechnet im bivariaten Fall eine eine Regressionsgerade, welche die Summe der Abweichungsquadrate (Error) minimiert. OLS garantiert damit die <strong>BLUE</strong> Vorhersage (blaue Linie) mit dem durchschnittlich, kleinsten (quadratischen) Fehler (rote Linien).</p>
+<p><img src="linear_model_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Die OLS-Schätzung kann wie folgt definiert werden</p>
+<p><span class="math display">\[\ell(\beta) = \sum^N_{i = 1} (y_i - \hat y_i)^2\]</span></p>
+<p><span class="math display">\[\ell(\beta) = \sum^n_{i = 1} (y_i - \beta_0 + \beta_1 x_i)^2 = \sum^n_{i = 1} \varepsilon_i^2 \]</span></p>
+<p>Die Fehlerfunktion hat also dann ihren optimalen Punkt erreicht wenn die Summe der quadratischen Abweichungen minimal ist.</p>
+<p><span class="math display">\[\hat \beta = argmin_\beta \;\;\ell(\beta)\]</span></p>
+<p>Damit besitzt die OLS Schätzmethode folgende algebraische Eigenschaften, welche als BLUE Kriterien bekannt sind und in praktischer Form bei der Residuenanalyse zum Einsatz kommen.</p>
+<table style="width:100%;">
+<colgroup>
+<col width="2%" />
+<col width="5%" />
+<col width="36%" />
+<col width="55%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td></td>
+<td><span class="math inline">\(\frac{1}{n}\sum^n_{i = 1}\varepsilon_i^2 = 0\)</span></td>
+<td>Der Stichprobenmittelwert der Residuen ist Null</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td></td>
+<td><span class="math inline">\(\frac{1}{n}\sum^n_{i = 1}x_i\varepsilon_i = 0\)</span></td>
+<td>Die Stichprobenkovarianz zwischen dem Regressor und dem Residuum ist Null.</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td></td>
+<td><span class="math inline">\(\bar y = \beta_0 + \beta_1 \bar x\)</span></td>
+<td>Die Stichprobenmittelwerte <span class="math inline">\(\bar y\)</span> und <span class="math inline">\(\bar x\)</span> liegen auf der Regressionsgerade</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td></td>
+<td><span class="math inline">\(\frac{1}{n}\sum^n_{i = 1}\hat y_i\varepsilon_i = 0\)</span></td>
+<td>Die Stichprobenkovarianz zwischen <span class="math inline">\(\hat y_i\)</span> und <span class="math inline">\(\varepsilon_i\)</span> ist Null.</td>
+</tr>
+</tbody>
+</table>
+<p>Weitere Schätzmethoden:</p>
+<ul>
+<li>Maximum-Likelihood</li>
+<li>MAD</li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="einstieg.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lm-modelgute.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"download": null,
+"toc": {
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

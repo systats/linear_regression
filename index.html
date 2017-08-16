@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Lineare Regression</title>
   <meta name="description" content="Dieses Book hat zum Ziel moderne Ansätze der Statistik einfach aber detailiert zu erklären. Neben den theoretischen Konzepten werden verschiedene Darstellungsformate und Modelimplication besprochen.">
-  <meta name="generator" content="bookdown 0.4 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.4.3 and GitBook 2.6.7">
 
   <meta property="og:title" content="Lineare Regression" />
   <meta property="og:type" content="book" />
@@ -63,17 +63,11 @@
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./"> Statistical Learning </a></li>
-
-<li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Übersicht</a></li>
 <li class="chapter" data-level="1" data-path="einstieg.html"><a href="einstieg.html"><i class="fa fa-check"></i><b>1</b> Einstieg</a></li>
-<li class="chapter" data-level="2" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>2</b> Basics</a></li>
-<li class="chapter" data-level="3" data-path="modelgute.html"><a href="modelgute.html"><i class="fa fa-check"></i><b>3</b> Modelgüte</a></li>
-<li class="chapter" data-level="4" data-path="residuenanalyse.html"><a href="residuenanalyse.html"><i class="fa fa-check"></i><b>4</b> Residuenanalyse</a></li>
-<li class="divider"></li>
-<li><a href="https://systats.github.io/" target="blank">Published by systats</a></li>
-
+<li class="chapter" data-level="2" data-path="lineare-regression.html"><a href="lineare-regression.html"><i class="fa fa-check"></i><b>2</b> Lineare Regression</a></li>
+<li class="chapter" data-level="3" data-path="lm-modelgute.html"><a href="lm-modelgute.html"><i class="fa fa-check"></i><b>3</b> LM Modelgüte</a></li>
+<li class="chapter" data-level="4" data-path="lm-residuenanalyse.html"><a href="lm-residuenanalyse.html"><i class="fa fa-check"></i><b>4</b> LM Residuenanalyse</a></li>
 </ul>
 
       </nav>
@@ -118,7 +112,7 @@
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,
@@ -135,14 +129,16 @@ gitbook.start({
 "family": "sans",
 "size": 2
 },
-"edit": {
-"link": null,
-"text": null
-},
-"download": ["linear_model.pdf"],
+"edit": null,
+"download": null,
 "toc": {
-"collapse": "subsection"
-}
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true
 });
 });
 </script>

@@ -7,14 +7,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Lineare Regression</title>
   <meta name="description" content="Dieses Book hat zum Ziel moderne Ansätze der Statistik einfach aber detailiert zu erklären. Neben den theoretischen Konzepten werden verschiedene Darstellungsformate und Modelimplication besprochen.">
-  <meta name="generator" content="bookdown 0.4 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.4.3 and GitBook 2.6.7">
 
   <meta property="og:title" content="Lineare Regression" />
   <meta property="og:type" content="book" />
   
   
   <meta property="og:description" content="Dieses Book hat zum Ziel moderne Ansätze der Statistik einfach aber detailiert zu erklären. Neben den theoretischen Konzepten werden verschiedene Darstellungsformate und Modelimplication besprochen." />
-  <meta name="github-repo" content="systats/learn_R/book/" />
+  <meta name="github-repo" content="systats/linear_regression" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Lineare Regression" />
@@ -25,7 +25,7 @@
 <meta name="author" content="Simon Roth">
 
 
-<meta name="date" content="2017-08-15">
+<meta name="date" content="2017-08-16">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,7 +33,7 @@
   
   
 <link rel="prev" href="index.html">
-<link rel="next" href="lineare-modelle.html">
+<link rel="next" href="lineare-regression.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -67,9 +67,6 @@
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./"> Statistical Learning </a></li>
-
-<li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Übersicht</a></li>
 <li class="chapter" data-level="1" data-path="einstieg.html"><a href="einstieg.html"><i class="fa fa-check"></i><b>1</b> Einstieg</a><ul>
 <li class="chapter" data-level="1.1" data-path="einstieg.html"><a href="einstieg.html#installation-von-r-rstudio"><i class="fa fa-check"></i><b>1.1</b> Installation von R/ RStudio</a></li>
@@ -80,13 +77,9 @@
 <li class="chapter" data-level="1.6" data-path="einstieg.html"><a href="einstieg.html#wie-lerne-ich-statistische-analyse"><i class="fa fa-check"></i><b>1.6</b> Wie lerne ich statistische Analyse?</a></li>
 <li class="chapter" data-level="1.7" data-path="einstieg.html"><a href="einstieg.html#build-modules"><i class="fa fa-check"></i><b>1.7</b> Build modules</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="lineare-modelle.html"><a href="lineare-modelle.html"><i class="fa fa-check"></i>Lineare Modelle</a></li>
-<li class="chapter" data-level="2" data-path="basics.html"><a href="basics.html"><i class="fa fa-check"></i><b>2</b> Basics</a></li>
-<li class="chapter" data-level="3" data-path="modelgute.html"><a href="modelgute.html"><i class="fa fa-check"></i><b>3</b> Modelgüte</a></li>
-<li class="chapter" data-level="4" data-path="residuenanalyse.html"><a href="residuenanalyse.html"><i class="fa fa-check"></i><b>4</b> Residuenanalyse</a></li>
-<li class="divider"></li>
-<li><a href="https://systats.github.io/" target="blank">Published by systats</a></li>
-
+<li class="chapter" data-level="2" data-path="lineare-regression.html"><a href="lineare-regression.html"><i class="fa fa-check"></i><b>2</b> Lineare Regression</a></li>
+<li class="chapter" data-level="3" data-path="lm-modelgute.html"><a href="lm-modelgute.html"><i class="fa fa-check"></i><b>3</b> LM Modelgüte</a></li>
+<li class="chapter" data-level="4" data-path="lm-residuenanalyse.html"><a href="lm-residuenanalyse.html"><i class="fa fa-check"></i><b>4</b> LM Residuenanalyse</a></li>
 </ul>
 
       </nav>
@@ -108,18 +101,17 @@
 <h1><span class="header-section-number">1</span> Einstieg</h1>
 <div id="installation-von-r-rstudio" class="section level2">
 <h2><span class="header-section-number">1.1</span> Installation von R/ RStudio</h2>
-<div id="htmlwidget-99db380fe8649ee72208" style="width:672px;height:96px;" class="uirender html-widget"></div>
-<script type="application/json" data-for="htmlwidget-99db380fe8649ee72208">{"x":{"ui":"<div class=\"ui raised segment\">Statistics is the grammar of science - Karl Pearson<\/div>"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1a294a8075a64c71347a" style="width:672px;height:96px;" class="uirender html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1a294a8075a64c71347a">{"x":{"ui":"<body style=\"min-height: 611px;\">\n  <div class=\"wrapper\">\n    <div class=\"ui raised segment\" style=\"font-size:10px\">Statistics is the grammar of science - Karl Pearson<\/div>\n  <\/div>\n<\/body>"},"evals":[],"jsHooks":[]}</script>
+<div class="subheader">
+Semantic UI wrapper for Shiny
+</div>
 <p><code>R</code> ist eine Programmiersprache, speziell entwickelt für Statistik. Die Software ist komplett kostenlos und wird unter einer GPL (GNU General Public License) zugänglich gemacht.</p>
 <blockquote>
 <p>We believe free and open source data analysis software is a foundation for innovative and important work in science, education, and industry <a href="https://www.rstudio.com/">(RStudio Homepage)</a>.</p>
 </blockquote>
 <p>Das <code>R</code> Statistik Package kann folgendermaßen heruntergeladen werden:</p>
-<div id="htmlwidget-acfd25b8d666270dfcf1" style="width:192px;height:96px;" class="uirender html-widget"></div>
-<script type="application/json" data-for="htmlwidget-acfd25b8d666270dfcf1">{"x":{"ui":"<a href=\"https://cran.r-project.org/mirrors.html\" target=\"_blank\">\n  <div class=\"ui grey button\">Download R<\/div>\n<\/a>"},"evals":[],"jsHooks":[]}</script>
 <p>Wir verwenden <code>RStudio</code> um auf <code>R</code> zuzugreifen:</p>
-<div id="htmlwidget-d0d0a74d8ef4cc57a2db" style="width:192px;height:96px;" class="uirender html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d0d0a74d8ef4cc57a2db">{"x":{"ui":"<a href=\"https://www.rstudio.com/products/rstudio/download/\" target=\"_blank\">\n  <div class=\"ui grey button\">Download RStudio<\/div>\n<\/a>"},"evals":[],"jsHooks":[]}</script>
 <p><img align="center" width="70%" src="images/car_mod.jpg"></p>
 <p><code>R</code> kann man sich als Motor vorstellen, nun braucht man noch ein Cockpit. Dazu greift man auf <code>RStudio</code> zurück, eine Software die den Umgang mit <code>R</code> sehr erleichtert. Eine IDE (Integrated Development Enviroment) wie Rstudio bietet tools wie Syntax Highlighting, Auto-Vervollständigung und bessere Übersicht über Grafiken, Packages und Datensätze.</p>
 </div>
@@ -167,14 +159,13 @@
 <div id="wazu-statistische-modelle" class="section level2">
 <h2><span class="header-section-number">1.5</span> Wazu statistische Modelle?</h2>
 <p>Daten zusammenfassen und beschreiben. Daten kommpremieren in Intercept and Slope um den generellen Trend</p>
-<div id="htmlwidget-60f7abbde2dd67d4752f" style="width:672px;height:480px;" class="uirender html-widget"></div>
-<script type="application/json" data-for="htmlwidget-60f7abbde2dd67d4752f">{"x":{"ui":"<div class=\"ui grid\">\n  <div class=\"eight wide column\">\n    <div class=\"ui raised segment\" style=\"margin-left:20px; font-size: 20px; max-width: 350px; width: 100%\">\n      <a class=\"ui green ribbon label\" href=\"\">Explanation<\/a>\n      In den Sozialwissenschaften werden statistische Analysen eingesetzt um Theorien empirisch zu untersuchen. Dabei werden theoretische Zusammenhänge in Form von Hypothesen (X beeinflusst Y) anhand von Daten getestet (Kausalanalyse).\n      <p><\/p>\n    <\/div>\n  <\/div>\n  <div class=\"eight wide column\">\n    <div class=\"ui raised segment\" style=\"margin-left: 20px; font-size: 20px; max-width: 350px; width: 100%\">\n      <a class=\"ui orange ribbon label\">Predicition<\/a>\n      Unzählige neue Methoden wurden entwickelt um Vorhersagen aufgrund statistischer Modelle zu treffen. Dabei wird in einem ersten Schritt die Assoziation zwischen X und Y modelliert. Dann folgt die Vorhersage von Y aufgrund neuer X-Observationen.\n      <p><\/p>\n    <\/div>\n  <\/div>\n  <p><\/p>\n<\/div>"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="wie-lerne-ich-statistische-analyse" class="section level2">
 <h2><span class="header-section-number">1.6</span> Wie lerne ich statistische Analyse?</h2>
 </div>
 <div id="build-modules" class="section level2">
 <h2><span class="header-section-number">1.7</span> Build modules</h2>
+
 </div>
 </div>
             </section>
@@ -183,7 +174,7 @@
         </div>
       </div>
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="lineare-modelle.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="lineare-regression.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -194,7 +185,7 @@
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,
@@ -211,14 +202,16 @@ gitbook.start({
 "family": "sans",
 "size": 2
 },
-"edit": {
-"link": null,
-"text": null
-},
-"download": ["linear_model.pdf"],
+"edit": null,
+"download": null,
 "toc": {
-"collapse": "subsection"
-}
+"collapse": "subsection",
+"scroll_highlight": true
+},
+"toolbar": {
+"position": "fixed"
+},
+"search": true
 });
 });
 </script>
